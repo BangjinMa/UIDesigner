@@ -65,6 +65,12 @@ public:
 	void			SetDefaultLinkHoverFontColor(DWORD dwColor);
 	DWORD	GetDefaultLinkHoverFontColor() const;
 
+	void setDefaultLayeredImage(CString layeredImage){ m_sLayeredImage = layeredImage; }
+	CString getDefaultLayeredImage(){ return m_sLayeredImage; }
+
+	void setLayeredOpacity(bool layeredOpacity){ m_bLayeredOpacity = layeredOpacity; }
+	bool getLayeredOpacity(){ return m_bLayeredOpacity; }
+
 private:
 	int			m_nOpacity;
 	bool			m_bAlphaBackground;
@@ -73,6 +79,9 @@ private:
 	DWORD	m_dwDefaultLinkFontColor;
 	DWORD	m_dwDefaultLinkHoverFontColor;
 	DWORD	m_dwDefaultSelectedFontColor;
+
+	bool m_bLayeredOpacity = false;
+	CString m_sLayeredImage;
 };
 
 //////////////////////////////////////////////////////////////////////////

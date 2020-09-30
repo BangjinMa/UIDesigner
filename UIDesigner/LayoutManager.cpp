@@ -207,6 +207,13 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		SetBackgroundTransparent(_tcscmp(pstrValue, _T("true")) == 0);
 		return;
 	}
+	else if (_tcscmp(pstrName, _T("layeredopacity")) == 0)
+	{
+		setLayeredOpacity(_tcscmp(pstrValue, _T("true")) == 0);
+		return;
+	}
+	else if (_tcscmp(pstrName, _T("layeredimage")) == 0) 
+		setDefaultLayeredImage(pstrValue);
 	else if ( _tcscmp(pstrName, _T("defaultfontcolor")) == 0)
 	{
 		while( *pstrValue > _T('\0') && *pstrValue <= _T(' ') ) pstrValue = ::CharNext(pstrValue);
@@ -2263,7 +2270,7 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 
 	RECT rcSizeBox = pForm->GetSizeBox();
 	ZeroMemory(szBuf,sizeof(szBuf));
-	if((rcSizeBox.left != 0) || (rcSizeBox.right != 0) || (rcSizeBox.bottom != 0) || (rcSizeBox.top != 0))
+	if((rcSizeBox.left !=0) || (rcSizeBox.right != 0) || (rcSizeBox.bottom != 0) || (rcSizeBox.top != 0))
 	{
 		_stprintf_s(szBuf, _T("%d,%d,%d,%d"), rcSizeBox.left, rcSizeBox.top, rcSizeBox.right, rcSizeBox.bottom);
 		pFormElm->SetAttribute("sizebox", StringConvertor::WideToUtf8(szBuf));
@@ -2307,6 +2314,17 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		_tcscpy(szBuf,_T("true"));
 		pFormElm->SetAttribute("showdirty", StringConvertor::WideToUtf8(szBuf));
 	}
+
+	if (pForm->getLayeredOpacity())
+	{
+		ZeroMemory(szBuf, sizeof(szBuf));
+		_stprintf_s(szBuf, _T("%d"), 255);
+		pFormElm->SetAttribute("layeredopacity", StringConvertor::WideToUtf8(szBuf));
+	}
+
+	if (pForm->getDefaultLayeredImage() && _tcslen(pForm->getDefaultLayeredImage()) > 0)
+		pFormElm->SetAttribute("layeredimage", StringConvertor::WideToUtf8(ConvertImageFileName(pForm->getDefaultLayeredImage())));
+
 
 	if (pForm->GetAlpha()!=255)
 	{
@@ -2394,6 +2412,9 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 			cachedFonts.push_back(lf);
 
 			TiXmlElement* pFontElem = new TiXmlElement("Font");
+			_stprintf_s(szBuf, _T("%d"), index);
+			pFontElem->SetAttribute("id", StringConvertor::WideToUtf8(szBuf));
+
 			pFontElem->SetAttribute("name", StringConvertor::WideToUtf8(lf.lfFaceName));
 
 			_stprintf_s(szBuf, _T("%d"), -lf.lfHeight);

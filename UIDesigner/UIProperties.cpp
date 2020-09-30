@@ -449,6 +449,13 @@ void CUIProperties::InitPropList()
 	pPropColor->EnableAutomaticButton(_T("默认"),::GetSysColor(COLOR_3DFACE));
 	pPropUI->AddSubItem(pPropColor);
 
+	pPropImage = new CMFCPropertyGridImageProperty(_T("LayeredImage"), _T(""), _T("异性窗口的背景"), tagLayeredImage);//normalimage
+	pPropImage->AllowEdit(FALSE);
+	pPropUI->AddSubItem(pPropImage);
+
+	pProp = new CMFCPropertyGridProperty(_T("LayeredOpacity"), (_variant_t)false, _T("dddd"), tagLayeredOpacity);//showdirty
+	pPropUI->AddSubItem(pProp);
+
 	m_wndPropList.AddProperty(pPropUI);
 #pragma endregion Window
 
@@ -1332,6 +1339,14 @@ void CUIProperties::ShowWindowProperty(CControlUI* pControl)
 	//showdirty
 	pPropForm->GetSubItem(tagShowDirty-tagWindow)->SetValue((_variant_t)pForm->IsShowUpdateRect());
 	pPropForm->GetSubItem(tagShowDirty-tagWindow)->SetOriginalValue((_variant_t)pForm->IsShowUpdateRect());
+
+	//LayeredOpacity
+	pPropForm->GetSubItem(tagLayeredOpacity-tagWindow)->SetValue((_variant_t)pForm->getLayeredOpacity());
+	pPropForm->GetSubItem(tagLayeredOpacity-tagWindow)->SetOriginalValue((_variant_t)pForm->getLayeredOpacity());
+
+	//LayeredOpacity
+	pPropForm->GetSubItem(tagLayeredImage-tagWindow)->SetValue((_variant_t)pForm->getDefaultLayeredImage());
+	pPropForm->GetSubItem(tagLayeredImage-tagWindow)->SetOriginalValue((_variant_t)pForm->getDefaultLayeredImage());
 
 	// tagAlpha
 	pPropForm->GetSubItem(tagAlpha-tagWindow)->SetValue((_variant_t)(LONG)pForm->GetAlpha());

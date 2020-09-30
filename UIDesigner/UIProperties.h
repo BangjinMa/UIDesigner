@@ -100,6 +100,8 @@ enum PropertyTag
 	tagDisabledFontColor,
 	tagLinkFontColor,
 	tagLinkHoverFontColor,
+	tagLayeredImage,
+	tagLayeredOpacity,
 
 	//Control
 	tagControl,
