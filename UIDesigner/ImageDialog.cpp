@@ -178,8 +178,8 @@ BOOL CImageDialog::OnInitDialog()
 
 	m_strImagePathName=m_strImageProperty;
 	LPCTSTR pStrImage=m_strImageProperty;
-	CStdString sItem;
-	CStdString sValue;
+	CDuiString sItem;
+	CDuiString sValue;
 	LPTSTR pstr = NULL;
 	while( *pStrImage != _T('\0') ) {
 		sItem.Empty();
@@ -275,7 +275,7 @@ void CImageDialog::OnBnClickedButtonImageImport()
 		LPCTSTR pstrPath = m_strImageArray[nPos];
 		m_lstImages.SetItemDataPtr(nIndex,(void*)pstrPath);
 		m_lstImages.SelectString(-1, strFileName);
-		SetImageProperty(pstrPath);
+		SetImageProperty(strFileName.GetString());
 	}
 }
 

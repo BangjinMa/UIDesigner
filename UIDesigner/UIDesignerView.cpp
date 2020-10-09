@@ -1174,7 +1174,7 @@ BOOL CUIDesignerView::SaveSkinImage(LPCTSTR pstrPathName)
 	CSize szForm = pForm->GetInitSize();
 	CRect rcPaint(0,0,szForm.cx,szForm.cy);
 	image.Create(szForm.cx, szForm.cy, 32);
-	pForm->DoPaint(image.GetDC(), rcPaint);
+	pForm->DoPaint(image.GetDC(), rcPaint, NULL);
 	BOOL bRet = image.Save(pstrPathName, Gdiplus::ImageFormatJPEG);
 
 	image.ReleaseDC();

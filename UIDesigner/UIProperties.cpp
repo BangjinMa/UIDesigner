@@ -7,7 +7,7 @@
 #include "DialogCustomFonts.h"
 #include "DialogDefaultAttribList.h"
 
-using DuiLib::TRelativePosUI;
+//using DuiLib::TRelativePosUI;
 using DuiLib::IListOwnerUI;
 
 //////////////////////////////////////////////////////////////////////////
@@ -1406,16 +1406,16 @@ void CUIProperties::ShowControlProperty(CControlUI* pControl)
 	pValueList->GetSubItem(2)->SetOriginalValue((_variant_t)(LONG)(szXY.cx+nWidth));
 	pValueList->GetSubItem(3)->SetOriginalValue((_variant_t)(LONG)(szXY.cy+nHeight));
 	//relativepos
-	TRelativePosUI posRelative=pControl->GetRelativePos();
-	pValueList=pPropControl->GetSubItem(tagRelativePos-tagControl);
-	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)posRelative.nMoveXPercent);
-	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)posRelative.nMoveYPercent);
-	pValueList->GetSubItem(2)->SetValue((_variant_t)(LONG)posRelative.nZoomXPercent);
-	pValueList->GetSubItem(3)->SetValue((_variant_t)(LONG)posRelative.nZoomYPercent);
-	pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)posRelative.nMoveXPercent);
-	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)posRelative.nMoveYPercent);
-	pValueList->GetSubItem(2)->SetOriginalValue((_variant_t)(LONG)posRelative.nZoomXPercent);
-	pValueList->GetSubItem(3)->SetOriginalValue((_variant_t)(LONG)posRelative.nZoomYPercent);
+	//TRelativePosUI posRelative=pControl->GetRelativePos();
+	//pValueList=pPropControl->GetSubItem(tagRelativePos-tagControl);
+	//pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)posRelative.nMoveXPercent);
+	//pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)posRelative.nMoveYPercent);
+	//pValueList->GetSubItem(2)->SetValue((_variant_t)(LONG)posRelative.nZoomXPercent);
+	//pValueList->GetSubItem(3)->SetValue((_variant_t)(LONG)posRelative.nZoomYPercent);
+	//pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)posRelative.nMoveXPercent);
+	//pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)posRelative.nMoveYPercent);
+	//pValueList->GetSubItem(2)->SetOriginalValue((_variant_t)(LONG)posRelative.nZoomXPercent);
+	//pValueList->GetSubItem(3)->SetOriginalValue((_variant_t)(LONG)posRelative.nZoomYPercent);
 	//size
 	pValueList=pPropControl->GetSubItem(tagSize-tagControl);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)pControl->GetWidth());
@@ -1461,8 +1461,8 @@ void CUIProperties::ShowControlProperty(CControlUI* pControl)
 	static_cast<CMFCPropertyGridColor32Property*>(pPropControl->GetSubItem(tagFocusBorderColor-tagControl))->SetColor((_variant_t)(LONG)(pControl->GetFocusBorderColor()));
 	static_cast<CMFCPropertyGridColor32Property*>(pPropControl->GetSubItem(tagFocusBorderColor-tagControl))->SetOriginalValue((_variant_t)(LONG)(pControl->GetFocusBorderColor()));
 	//bordersize
-	pPropControl->GetSubItem(tagBorderSize-tagControl)->SetValue((_variant_t)(LONG)pControl->GetBorderSize());
-	pPropControl->GetSubItem(tagBorderSize-tagControl)->SetOriginalValue((_variant_t)(LONG)pControl->GetBorderSize());
+	//pPropControl->GetSubItem(tagBorderSize-tagControl)->SetValue((_variant_t)(LONG)pControl->GetBorderSize());
+	//pPropControl->GetSubItem(tagBorderSize-tagControl)->SetOriginalValue((_variant_t)(LONG)pControl->GetBorderSize());
 	//borderround
 	pValueList=pPropControl->GetSubItem(tagBorderRound-tagControl);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)pControl->GetBorderRound().cx);
@@ -1979,17 +1979,17 @@ void CUIProperties::ShowItemProperty( CControlUI* pControl )
 
 	//itembkimage
 	TListInfoUI* pListInfo=pList->GetListInfo();
-	pPropItem->GetSubItem(tagItemBkImage-tagItem)->SetValue((_variant_t)pListInfo->sBkImage);
-	pPropItem->GetSubItem(tagItemBkImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sBkImage);
+	//pPropItem->GetSubItem(tagItemBkImage-tagItem)->SetValue((_variant_t)pListInfo->sBkImage);
+	//pPropItem->GetSubItem(tagItemBkImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sBkImage);
 	//itemhotimage
-	pPropItem->GetSubItem(tagItemHotImage-tagItem)->SetValue((_variant_t)pListInfo->sHotImage);
-	pPropItem->GetSubItem(tagItemHotImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sHotImage);
+	//pPropItem->GetSubItem(tagItemHotImage-tagItem)->SetValue((_variant_t)pListInfo->sHotImage);
+	//pPropItem->GetSubItem(tagItemHotImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sHotImage);
 	//itemselectedimage
-	pPropItem->GetSubItem(tagItemSelectedImage-tagItem)->SetValue((_variant_t)pListInfo->sSelectedImage);
-	pPropItem->GetSubItem(tagItemSelectedImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sSelectedImage);
+	//pPropItem->GetSubItem(tagItemSelectedImage-tagItem)->SetValue((_variant_t)pListInfo->sSelectedImage);
+	//pPropItem->GetSubItem(tagItemSelectedImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sSelectedImage);
 	//itemdisabledimage
-	pPropItem->GetSubItem(tagItemDisabledImage-tagItem)->SetValue((_variant_t)pListInfo->sDisabledImage);
-	pPropItem->GetSubItem(tagItemDisabledImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sDisabledImage);
+	//pPropItem->GetSubItem(tagItemDisabledImage-tagItem)->SetValue((_variant_t)pListInfo->sDisabledImage);
+	//pPropItem->GetSubItem(tagItemDisabledImage-tagItem)->SetOriginalValue((_variant_t)pListInfo->sDisabledImage);
 	//itemtextpadding
 	CMFCPropertyGridProperty*  pValueList=pPropItem->GetSubItem(tagItemTextPadding-tagItem);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)pListInfo->rcTextPadding.left);
@@ -2035,8 +2035,8 @@ void CUIProperties::ShowItemProperty( CControlUI* pControl )
 	static_cast<CMFCPropertyGridColor32Property*>(pPropItem->GetSubItem(tagItemDisabledBkColor-tagItem))->SetColor((_variant_t)(LONG)pListInfo->dwDisabledBkColor);
 	static_cast<CMFCPropertyGridColor32Property*>(pPropItem->GetSubItem(tagItemDisabledBkColor-tagItem))->SetOriginalValue((_variant_t)(LONG)pListInfo->dwDisabledBkColor);
 	//itemlinecolor
-	static_cast<CMFCPropertyGridColor32Property*>(pPropItem->GetSubItem(tagItemLineColor-tagItem))->SetColor((_variant_t)(LONG)pListInfo->dwLineColor);
-	static_cast<CMFCPropertyGridColor32Property*>(pPropItem->GetSubItem(tagItemLineColor-tagItem))->SetOriginalValue((_variant_t)(LONG)pListInfo->dwLineColor);
+	//static_cast<CMFCPropertyGridColor32Property*>(pPropItem->GetSubItem(tagItemLineColor-tagItem))->SetColor((_variant_t)(LONG)pListInfo->dwLineColor);
+	//static_cast<CMFCPropertyGridColor32Property*>(pPropItem->GetSubItem(tagItemLineColor-tagItem))->SetOriginalValue((_variant_t)(LONG)pListInfo->dwLineColor);
 	//itemfont
 	pPropItem->GetSubItem(tagItemFont-tagItem)->SetValue((_variant_t)(LONG)pListInfo->nFont);
 	pPropItem->GetSubItem(tagItemFont-tagItem)->SetOriginalValue((_variant_t)(LONG)pListInfo->nFont);

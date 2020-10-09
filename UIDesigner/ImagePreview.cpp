@@ -47,8 +47,8 @@ void CImagePreview::OnPaint()
 	pDC->Rectangle(rcBorder);
 	pDC->SelectObject(pOldBrush);
 
-	CRenderEngine::DrawImageString(pDC->GetSafeHdc(),m_pManager,m_rcImage,rcClient,
-		m_strProperty,NULL);
+	//CRenderEngine::DrawImage(pDC->GetSafeHdc(),m_pManager,m_rcImage,rcClient,
+	//	m_strProperty,NULL);
 }
 
 void CImagePreview::SetImageProperty(LPCTSTR pstrImage,CRect& rcDest,CRect& rcSource,CRect& rcCorner,COLORREF clrMask,int nFade,BOOL bHole)

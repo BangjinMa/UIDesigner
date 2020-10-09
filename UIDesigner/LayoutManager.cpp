@@ -264,7 +264,6 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 void CWindowUI::SetBackgroundTransparent( bool bTrans )
 {
 	m_bAlphaBackground=bTrans;
-	m_pManager->SetBackgroundTransparent(bTrans);
 }
 
 bool CWindowUI::GetBackgroundTransparent() const
@@ -330,7 +329,6 @@ DWORD CWindowUI::GetDefaultSelectedFontColor() const
 void CWindowUI::SetAlpha( int nOpacity )
 {
 	m_nOpacity=nOpacity;
-	m_pManager->SetTransparent(nOpacity);
 }
 
 int CWindowUI::GetAlpha() const
@@ -405,7 +403,6 @@ LRESULT CFormTestWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 	m_pManager->Init(m_hWnd);
 	m_pManager->AttachDialog(m_pRoot);
 	m_pManager->AddNotifier(this);
-	m_pManager->SetBackgroundTransparent(true);
 
 	SIZE szInitWindowSize = m_pManager->GetInitSize();
 	if( szInitWindowSize.cx != 0 ) {
@@ -543,7 +540,7 @@ public:
 	}
 	virtual LPCTSTR GetClass() const{return mClassName;}
 protected:
-	CStdString mClassName;
+	CDuiString mClassName;
 };
 
 CControlUI* CLayoutManager::CreateControl(LPCTSTR pstrClass)
@@ -592,7 +589,7 @@ void CLayoutManager::Draw(CDC* pDC)
 	CRect rcPaint(0, 0, szForm.cx, szForm.cy);
 	CControlUI* pForm = m_Manager.GetRoot();
 
-	pForm->DoPaint(pDC->GetSafeHdc(), rcPaint);
+	pForm->DoPaint(pDC->GetSafeHdc(), rcPaint, NULL);
 
 	CContainerUI* pContainer = static_cast<CContainerUI*>(pForm->GetInterface(_T("Container")));
 	ASSERT(pContainer);
@@ -608,7 +605,7 @@ void CLayoutManager::DrawAuxBorder(CDC* pDC,CControlUI* pControl)
 	CContainerUI* pContainer=static_cast<CContainerUI*>(pControl->GetInterface(_T("Container")));
 
 	//draw auxBorder
-	if(pControl->GetBorderColor()==0||pControl->GetBorderSize()<=0)
+	if(pControl->GetBorderColor()==0||pControl->GetBorderSize().bottom<=0)
 	{
 		pDC->SetBkMode(TRANSPARENT);
 		CPen DotedPen(PS_SOLID,1,pContainer?RGB(255,0,0):RGB(0,255,0));
@@ -763,7 +760,6 @@ CControlUI* CLayoutManager::NewUI(int nClass,CRect& rect,CControlUI* pParent, CL
 		if(!pParentContainer->Add(pControl))
 		{
 			delete pExtended;
-			delete pControl;
 			return NULL;
 		}
 		ExtendedAttributes* pParentExtended = (ExtendedAttributes*)pParentContainer->GetTag();
@@ -781,7 +777,7 @@ CControlUI* CLayoutManager::NewUI(int nClass,CRect& rect,CControlUI* pParent, CL
 		strClass = strClass.Left(strClass.GetLength() - 2);
 		LPCTSTR pDefaultAttributes = pManager->GetDefaultAttributeList(strClass);
 		if(pDefaultAttributes)
-			pControl->ApplyAttributeList(pDefaultAttributes);
+			pControl->SetAttributeList(pDefaultAttributes);
 
 		//name
 		pLayout->SetDefaultUIName(pControl);
@@ -802,8 +798,6 @@ BOOL CLayoutManager::DeleteUI(CControlUI* pControl)
 		CContainerUI* pContainer = static_cast<CContainerUI*>(pParent->GetInterface(_T("Container")));
 		pContainer->Remove(pControl);
 	}
-	else
-		delete pControl;
 
 	return TRUE;
 }
@@ -1475,7 +1469,7 @@ void CLayoutManager::SaveControlProperty(CControlUI* pControl, TiXmlElement* pNo
 		pNode->SetAttribute("shortcut", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if(pControl->GetBorderSize() != 1)
+	if(pControl->GetBorderSize().top != 1)
 	{
 		_stprintf_s(szBuf, _T("%d"),pControl->GetBorderSize());
 		pNode->SetAttribute("bordersize", StringConvertor::WideToUtf8(szBuf));
@@ -1613,10 +1607,9 @@ void CLayoutManager::SaveControlProperty(CControlUI* pControl, TiXmlElement* pNo
 		pNode->SetAttribute("minheight", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	TRelativePosUI relativePos = pControl->GetRelativePos();
-	if(relativePos.bRelative)
+	RECT relativePos = pControl->GetRelativePos();
 	{
-		_stprintf_s(szBuf, _T("%d,%d,%d,%d"), relativePos.nMoveXPercent, relativePos.nMoveYPercent, relativePos.nZoomXPercent, relativePos.nZoomYPercent);
+		_stprintf_s(szBuf, _T("%d,%d,%d,%d"), relativePos.left, relativePos.top, relativePos.right, relativePos.bottom);
 		pNode->SetAttribute("relativepos", StringConvertor::WideToUtf8(szBuf));
 	}
 
@@ -2434,7 +2427,7 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		}
 	}
 
-	const CStdStringPtrMap& defaultAttrHash = m_Manager.GetDefaultAttribultes();
+	const CDuiStringPtrMap& defaultAttrHash = m_Manager.GetDefaultAttribultes();
 	if(defaultAttrHash.GetSize() > 0)
 	{
 		for (int index = 0; index < defaultAttrHash.GetSize(); ++index)
@@ -2493,8 +2486,8 @@ void CLayoutManager::SetDefaultUIName(CControlUI* pControl)
 CString CLayoutManager::ConvertImageFileName(LPCTSTR pstrImageAttrib)
 {
 	CString strImageAttrib(pstrImageAttrib);
-	CStdString sItem;
-	CStdString sValue;
+	CDuiString sItem;
+	CDuiString sValue;
 	LPTSTR pstr = (LPTSTR)pstrImageAttrib;
 	while( *pstr != _T('\0') ) {
 		sItem.Empty();
@@ -2604,26 +2597,7 @@ void CLayoutManager::SaveItemProperty( CControlUI* pControl, TiXmlElement* pNode
 		pNode->SetAttribute("itemdisabledbkcolor", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if(pListInfo->dwLineColor != 0)
-	{
-		DWORD dwColor = pListInfo->dwLineColor;					
-		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
-		pNode->SetAttribute("itemlinecolor", StringConvertor::WideToUtf8(szBuf));
-	}
-
-	if(pListInfo->sBkImage && _tcslen(pListInfo->sBkImage) > 0)
-		pNode->SetAttribute("itembkimage", StringConvertor::WideToUtf8(ConvertImageFileName(pListInfo->sBkImage)));
-
-	if(pListInfo->sSelectedImage && _tcslen(pListInfo->sSelectedImage) > 0)
-		pNode->SetAttribute("itemselectedimage", StringConvertor::WideToUtf8(ConvertImageFileName(pListInfo->sSelectedImage)));
-
-	if(pListInfo->sHotImage && _tcslen(pListInfo->sHotImage) > 0)
-		pNode->SetAttribute("itemhotimage", StringConvertor::WideToUtf8(ConvertImageFileName(pListInfo->sHotImage)));
-
-	if(pListInfo->sDisabledImage && _tcslen(pListInfo->sDisabledImage) > 0)
-		pNode->SetAttribute("itemdisabledimage", StringConvertor::WideToUtf8(ConvertImageFileName(pListInfo->sDisabledImage)));
-
-	CStdString tstrAlgin;
+	CDuiString tstrAlgin;
 	UINT uTextStyle = pListInfo->uTextStyle;
 
 	if(uTextStyle == DT_LEFT)

@@ -64,7 +64,7 @@ BOOL CDialogDefaultAttribList::OnInitDialog()
 
 	m_pManager = g_pMainFrame->GetActiveUIView()->GetPaintManager();
 	ASSERT(m_pManager);
-	const CStdStringPtrMap& DefaultAttribHash = m_pManager->GetDefaultAttribultes();
+	const CDuiStringPtrMap& DefaultAttribHash = m_pManager->GetDefaultAttribultes();
 	for(int i=0; i<DefaultAttribHash.GetSize(); i++)
 	{
 		LPCTSTR pstrName = DefaultAttribHash.GetAt(i);
@@ -207,7 +207,7 @@ void CDialogDefaultAttribList::OnBnClickedButtonAttribModify()
 		}
 		pControl = CLayoutManager::NewUI(nClass, CRect(0, 0, 0, 0), NULL, NULL);
 		ASSERT(pControl);
-		pControl->ApplyAttributeList(pstrDefaultAttrib);
+		pControl->SetAttributeList(pstrDefaultAttrib);
 		m_lstDefaultAttrib.SetItemDataPtr(nIndex, pControl);
 	}
 
@@ -219,19 +219,15 @@ void CDialogDefaultAttribList::OnBnClickedButtonAttribModify()
 		if(GetDefaultAttrib(pCopyControl, strValue) == FALSE)
 		{
 			MessageBox(_T("修改默认属性失败！"), _T("提示"), MB_ICONINFORMATION);
-			delete pCopyControl;
 			return;
 		}
 		m_pManager->RemoveDefaultAttributeList(strDefaultAttribName);
 		m_pManager->AddDefaultAttributeList(strDefaultAttribName, strValue);
 
-		delete pControl;
 		m_lstDefaultAttrib.SetItemDataPtr(nIndex, pCopyControl);
 		m_wndUIProperties.ShowProperty(pCopyControl);
 		g_pMainFrame->GetActiveUIView()->SetModifiedFlag();
 	}
-	else
-		delete pCopyControl;
 }
 
 void CDialogDefaultAttribList::OnLbnSelchangeListDefaultAttrib()
@@ -257,7 +253,7 @@ void CDialogDefaultAttribList::OnLbnSelchangeListDefaultAttrib()
 		pControl = CLayoutManager::NewUI(nClass, CRect(0, 0, 0, 0), NULL, NULL);
 		ASSERT(pControl);
 		m_lstDefaultAttrib.SetItemDataPtr(nIndex, pControl);
-		pControl->ApplyAttributeList(pstrDefaultAttrib);
+		pControl->SetAttributeList(pstrDefaultAttrib);
 	}
 	m_wndUIProperties.ShowProperty(pControl);
 }
