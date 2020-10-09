@@ -17,6 +17,7 @@ public:
 
 private:
 	CPaintManagerUI* m_pManager;
+	int m_fontCount = 1;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

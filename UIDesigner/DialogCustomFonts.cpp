@@ -77,20 +77,22 @@ void CDialogCustomFonts::OnBnClickedButtonFontAdd()
 	CFontDialog dlg(NULL);
 	if(dlg.DoModal() == IDOK)
 	{
+		m_fontCount++;
 		LOGFONT lf = { 0 };
 		dlg.GetCurrentFont(&lf);
-		m_pManager->AddFont(1, lf.lfFaceName, -lf.lfHeight, (lf.lfWeight == FW_BOLD), lf.lfUnderline!=0, lf.lfItalic!=0, true);
+		m_pManager->AddFont(m_fontCount, lf.lfFaceName, -lf.lfHeight, (lf.lfWeight == FW_BOLD), lf.lfUnderline != 0, lf.lfItalic != 0, true);
 
 		CString str;
 		int nCount = m_lstCustomFonts.GetItemCount();
-		str.Format(_T("%d"), nCount);
-		m_lstCustomFonts.InsertItem(nCount, str);
-		m_lstCustomFonts.SetItemText(nCount, 1, lf.lfFaceName);
+
+		str.Format(_T("%d"), m_fontCount);
+		m_lstCustomFonts.InsertItem(m_fontCount, str);
+		m_lstCustomFonts.SetItemText(m_fontCount, 1, lf.lfFaceName);
 		str.Format(_T("%d"), -lf.lfHeight);
-		m_lstCustomFonts.SetItemText(nCount, 2, str);
-		m_lstCustomFonts.SetItemText(nCount, 3, (lf.lfWeight == FW_BOLD) ? _T("true") : _T("false"));
-		m_lstCustomFonts.SetItemText(nCount, 4, lf.lfItalic ? _T("true") : _T("false"));
-		m_lstCustomFonts.SetItemText(nCount, 5, lf.lfUnderline ? _T("true") : _T("false"));
+		m_lstCustomFonts.SetItemText(m_fontCount, 2, str);
+		m_lstCustomFonts.SetItemText(m_fontCount, 3, (lf.lfWeight == FW_BOLD) ? _T("true") : _T("false"));
+		m_lstCustomFonts.SetItemText(m_fontCount, 4, lf.lfItalic ? _T("true") : _T("false"));
+		m_lstCustomFonts.SetItemText(m_fontCount, 5, lf.lfUnderline ? _T("true") : _T("false"));
 
 		g_pMainFrame->GetActiveUIView()->SetModifiedFlag();
 	}
