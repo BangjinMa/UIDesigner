@@ -132,7 +132,7 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		LPTSTR pstr = NULL;
 		int cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 		int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr); 
-		SetInitSize(cx, cy);
+		m_pManager->SetInitSize(cx, cy);
 		return;
 	} 
 	else if( _tcscmp(pstrName, _T("sizebox")) == 0 )
@@ -143,7 +143,7 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		rcSizeBox.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 		rcSizeBox.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 		rcSizeBox.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
-		SetSizeBox(rcSizeBox);
+		m_pManager->SetSizeBox(rcSizeBox);
 		return;
 	}
 	else if( _tcscmp(pstrName, _T("caption")) == 0 )
@@ -154,7 +154,7 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		rcCaption.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);    
 		rcCaption.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);    
 		rcCaption.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);    
-		SetCaptionRect(rcCaption);
+		m_pManager->SetCaptionRect(rcCaption);
 		return;
 	}
 	else if( _tcscmp(pstrName, _T("roundcorner")) == 0 )
@@ -162,7 +162,7 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		LPTSTR pstr = NULL;
 		int cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 		int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr); 
-		SetRoundCorner(cx, cy);
+		m_pManager->SetRoundCorner(cx, cy);
 		return;
 	} 
 	else if( _tcscmp(pstrName, _T("mininfo")) == 0 )
@@ -170,7 +170,7 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		LPTSTR pstr = NULL;
 		int cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 		int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr); 
-		SetMinInfo(cx, cy);
+		m_pManager->SetMinInfo(cx, cy);
 		return;
 	}
 	else if( _tcscmp(pstrName, _T("maxinfo")) == 0 )
@@ -178,12 +178,12 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		LPTSTR pstr = NULL;
 		int cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);    
 		int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr); 
-		SetMaxInfo(cx, cy);
+		m_pManager->SetMaxInfo(cx, cy);
 		return;
 	}
 	else if( _tcscmp(pstrName, _T("showdirty")) == 0 )
 	{
-		SetShowUpdateRect(_tcscmp(pstrValue, _T("true")) == 0);
+		m_pManager->SetShowUpdateRect(_tcscmp(pstrValue, _T("true")) == 0);
 		return;
 	}
 	else if( _tcscmp(pstrName, _T("pos")) == 0 )
@@ -197,48 +197,35 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		SetInitSize(rcPos.right - rcPos.left, rcPos.bottom - rcPos.top);
 		return;
 	}
-	else if ( _tcscmp(pstrName, _T("alpha")) == 0)
+	else if (_tcscmp(pstrName, _T("opacity")) == 0)
 	{
-		SetAlpha(_ttoi(pstrValue));
-		return;
-	}
-	else if ( _tcscmp(pstrName, _T("bktrans")) == 0)
-	{
-		SetBackgroundTransparent(_tcscmp(pstrValue, _T("true")) == 0);
+		m_pManager->SetOpacity(_tcscmp(pstrValue, _T("true")) == 0);
 		return;
 	}
 	else if (_tcscmp(pstrName, _T("layeredopacity")) == 0)
 	{
-		setLayeredOpacity(_tcscmp(pstrValue, _T("true")) == 0);
+		m_pManager->SetLayeredOpacity(_tcscmp(pstrValue, _T("true")) == 0);
 		return;
 	}
 	else if (_tcscmp(pstrName, _T("layeredimage")) == 0) 
-		setDefaultLayeredImage(pstrValue);
-	else if ( _tcscmp(pstrName, _T("defaultfontcolor")) == 0)
-	{
-		while( *pstrValue > _T('\0') && *pstrValue <= _T(' ') ) pstrValue = ::CharNext(pstrValue);
-		if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-		LPTSTR pstr = NULL;
-		DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
-		SetDefaultFontColor(clrColor);
-		return;
-	}
-	else if ( _tcscmp(pstrName, _T("selectedcolor")) == 0)
-	{
-		while( *pstrValue > _T('\0') && *pstrValue <= _T(' ') ) pstrValue = ::CharNext(pstrValue);
-		if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
-		LPTSTR pstr = NULL;
-		DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
-		SetDefaultSelectedFontColor(clrColor);
-		return;
-	}
+		m_pManager->SetLayeredImage(pstrValue);
+
 	else if ( _tcscmp(pstrName, _T("disabledfontcolor")) == 0)
 	{
 		while( *pstrValue > _T('\0') && *pstrValue <= _T(' ') ) pstrValue = ::CharNext(pstrValue);
 		if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 		LPTSTR pstr = NULL;
 		DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
-		SetDefaultDisabledFontColor(clrColor);
+		m_pManager->SetDefaultDisabledColor(clrColor);
+		return;
+	}
+	else if (_tcscmp(pstrName, _T("defaultfontcolor")) == 0)
+	{
+		while (*pstrValue > _T('\0') && *pstrValue <= _T(' ')) pstrValue = ::CharNext(pstrValue);
+		if (*pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+		LPTSTR pstr = NULL;
+		DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+		m_pManager->SetDefaultFontColor(clrColor);
 		return;
 	}
 	else if ( _tcscmp(pstrName, _T("linkfontcolor")) == 0)
@@ -247,7 +234,7 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 		LPTSTR pstr = NULL;
 		DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
-		SetDefaultLinkFontColor(clrColor);
+		m_pManager->SetDefaultLinkFontColor(clrColor);
 		return;
 	}
 	else if ( _tcscmp(pstrName, _T("linkhoverfontcolor")) == 0)
@@ -256,7 +243,16 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		if( *pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
 		LPTSTR pstr = NULL;
 		DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
-		SetDefaultLinkHoverFontColor(clrColor);
+		m_pManager->SetDefaultLinkHoverFontColor(clrColor);
+		return;
+	}
+	else if (_tcscmp(pstrName, _T("selectedcolor")) == 0)
+	{
+		while (*pstrValue > _T('\0') && *pstrValue <= _T(' ')) pstrValue = ::CharNext(pstrValue);
+		if (*pstrValue == _T('#')) pstrValue = ::CharNext(pstrValue);
+		LPTSTR pstr = NULL;
+		DWORD clrColor = _tcstoul(pstrValue, &pstr, 16);
+		m_pManager->SetDefaultSelectedBkColor(clrColor);
 		return;
 	}
 }
@@ -2252,7 +2248,7 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 
 	CWindowUI* pForm = GetForm();
 	ASSERT(pForm);
-	SIZE szSize = pForm->GetInitSize();
+	SIZE szSize = m_Manager.GetInitSize();
 	ZeroMemory(szBuf,sizeof(szBuf));
 	if((szSize.cx != 400) || (szSize.cy != 400))
 	{
@@ -2260,7 +2256,7 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		pFormElm->SetAttribute("size", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	RECT rcSizeBox = pForm->GetSizeBox();
+	RECT rcSizeBox = m_Manager.GetSizeBox();
 	ZeroMemory(szBuf,sizeof(szBuf));
 	if((rcSizeBox.left !=0) || (rcSizeBox.right != 0) || (rcSizeBox.bottom != 0) || (rcSizeBox.top != 0))
 	{
@@ -2268,7 +2264,7 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		pFormElm->SetAttribute("sizebox", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	RECT rcCaption = pForm->GetCaptionRect();
+	RECT rcCaption = m_Manager.GetCaptionRect();
 	ZeroMemory(szBuf,sizeof(szBuf));
 	if((rcCaption.left != 0) || (rcCaption.right != 0) || (rcCaption.bottom != 0) || (rcCaption.top != 0))
 	{
@@ -2276,7 +2272,15 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		pFormElm->SetAttribute("caption", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	SIZE szMinWindow = pForm->GetMinInfo();
+	SIZE szRoundCorner = m_Manager.GetRoundCorner();
+	if ((szRoundCorner.cx != 0) || (szRoundCorner.cy != 0))
+	{
+		ZeroMemory(szBuf, sizeof(szBuf));
+		_stprintf_s(szBuf, _T("%d,%d"), szRoundCorner.cx, szRoundCorner.cy);
+		pFormElm->SetAttribute("roundcorner", StringConvertor::WideToUtf8(szBuf));
+	}
+
+	SIZE szMinWindow = m_Manager.GetMinInfo();
 	if((szMinWindow.cx != 0) || (szMinWindow.cy != 0))
 	{
 		ZeroMemory(szBuf,sizeof(szBuf));
@@ -2284,7 +2288,7 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		pFormElm->SetAttribute("mininfo", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	SIZE szMaxWindow = pForm->GetMaxInfo();
+	SIZE szMaxWindow = m_Manager.GetMaxInfo();
 	if((szMaxWindow.cx != 0) || (szMaxWindow.cy != 0))
 	{
 		ZeroMemory(szBuf,sizeof(szBuf));
@@ -2292,84 +2296,75 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		pFormElm->SetAttribute("maxinfo", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	SIZE szRoundCorner = pForm->GetRoundCorner();
-	if((szRoundCorner.cx != 0) || (szRoundCorner.cy != 0))
-	{
-		ZeroMemory(szBuf,sizeof(szBuf));
-		_stprintf_s(szBuf, _T("%d,%d"), szRoundCorner.cx, szRoundCorner.cy);
-		pFormElm->SetAttribute("roundcorner", StringConvertor::WideToUtf8(szBuf));
-	}
-
-	if( pForm->IsShowUpdateRect())
+	if(m_Manager.IsShowUpdateRect())
 	{
 		ZeroMemory(szBuf,sizeof(szBuf));
 		_tcscpy(szBuf,_T("true"));
 		pFormElm->SetAttribute("showdirty", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if (pForm->getLayeredOpacity())
+	if (m_Manager.IsNoActivate())
+	{
+		ZeroMemory(szBuf, sizeof(szBuf));
+		_tcscpy(szBuf, _T("true"));
+		pFormElm->SetAttribute("noactivate", StringConvertor::WideToUtf8(szBuf));
+	}
+
+	if (m_Manager.GetOpacity())
+	{
+		ZeroMemory(szBuf, sizeof(szBuf));
+		_tcscpy(szBuf, _T("true"));
+		pFormElm->SetAttribute("noactivate", StringConvertor::WideToUtf8(szBuf));
+	}
+
+	if (m_Manager.GetLayeredOpacity())
 	{
 		ZeroMemory(szBuf, sizeof(szBuf));
 		_stprintf_s(szBuf, _T("%d"), 255);
 		pFormElm->SetAttribute("layeredopacity", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if (pForm->getDefaultLayeredImage() && _tcslen(pForm->getDefaultLayeredImage()) > 0)
-		pFormElm->SetAttribute("layeredimage", StringConvertor::WideToUtf8(ConvertImageFileName(pForm->getDefaultLayeredImage())));
+	if (m_Manager.GetLayeredImage() && _tcslen(m_Manager.GetLayeredImage()) > 0)
+		pFormElm->SetAttribute("layeredimage", StringConvertor::WideToUtf8(ConvertImageFileName(m_Manager.GetLayeredImage())));
 
-
-	if (pForm->GetAlpha()!=255)
+	if (m_Manager.GetDefaultDisabledColor() != 0xFFA7A6AA)
 	{
-		ZeroMemory(szBuf,sizeof(szBuf));
-		_stprintf_s(szBuf, _T("%d"), pForm->GetAlpha());
-		pFormElm->SetAttribute("alpha", StringConvertor::WideToUtf8(szBuf));
+		DWORD dwColor = m_Manager.GetDefaultDisabledColor();
+		ZeroMemory(szBuf, sizeof(szBuf));
+		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
+		pFormElm->SetAttribute("disabledfontcolor", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if (pForm->GetBackgroundTransparent())
+	if (m_Manager.GetDefaultFontColor()!=0xFF000000)
 	{
-		ZeroMemory(szBuf,sizeof(szBuf));
-		_tcscpy(szBuf,_T("true"));
-		pFormElm->SetAttribute("bktrans", StringConvertor::WideToUtf8(szBuf));
-	}
-
-	if (pForm->GetDefaultFontColor()!=0xFF000000)
-	{
-		DWORD dwColor = pForm->GetDefaultFontColor();
+		DWORD dwColor = m_Manager.GetDefaultFontColor();
 		ZeroMemory(szBuf,sizeof(szBuf));
 		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
 		pFormElm->SetAttribute("defaultfontcolor", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if (pForm->GetDefaultSelectedFontColor()!=0xFFBAE4FF)
+	if (m_Manager.GetDefaultLinkFontColor()!=0xFF0000FF)
 	{
-		DWORD dwColor = pForm->GetDefaultSelectedFontColor();
-		ZeroMemory(szBuf,sizeof(szBuf));
-		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
-		pFormElm->SetAttribute("selectedcolor", StringConvertor::WideToUtf8(szBuf));
-	}
-
-	if (pForm->GetDefaultDisabledFontColor()!=0xFFA7A6AA)
-	{
-		DWORD dwColor = pForm->GetDefaultDisabledFontColor();
-		ZeroMemory(szBuf,sizeof(szBuf));
-		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
-		pFormElm->SetAttribute("disabledfontcolor", StringConvertor::WideToUtf8(szBuf));
-	}
-
-	if (pForm->GetDefaultLinkFontColor()!=0xFF0000FF)
-	{
-		DWORD dwColor = pForm->GetDefaultLinkFontColor();
+		DWORD dwColor = m_Manager.GetDefaultLinkFontColor();
 		ZeroMemory(szBuf,sizeof(szBuf));
 		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
 		pFormElm->SetAttribute("linkfontcolor", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if (pForm->GetDefaultLinkHoverFontColor()!=0xFFD3215F)
+	if (m_Manager.GetDefaultLinkHoverFontColor()!=0xFFD3215F)
 	{
-		DWORD dwColor = pForm->GetDefaultLinkHoverFontColor();
+		DWORD dwColor = m_Manager.GetDefaultLinkHoverFontColor();
 		ZeroMemory(szBuf,sizeof(szBuf));
 		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
 		pFormElm->SetAttribute("linkhoverfontcolor", StringConvertor::WideToUtf8(szBuf));
+	}
+
+	if (m_Manager.GetDefaultSelectedBkColor() != 0xFFBAE4FF)
+	{
+		DWORD dwColor = m_Manager.GetDefaultSelectedBkColor();
+		ZeroMemory(szBuf, sizeof(szBuf));
+		_stprintf_s(szBuf, _T("#%02X%02X%02X%02X"), HIBYTE(HIWORD(dwColor)), static_cast<BYTE>(GetBValue(dwColor)), static_cast<BYTE>(GetGValue(dwColor)), static_cast<BYTE>(GetRValue(dwColor)));
+		pFormElm->SetAttribute("selectedcolor", StringConvertor::WideToUtf8(szBuf));
 	}
 
 	TiXmlNode* pNode = xmlDoc.InsertEndChild(*pFormElm);

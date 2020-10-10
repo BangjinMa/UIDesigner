@@ -203,21 +203,21 @@ void CPropertiesWnd::SetUIValue(CMFCPropertyGridProperty* pProp,int nTag)
 			strNewVal = _T("hidden");
 		}
 		break;
-	case tagAlpha:
-		{
-			int alpha=_ttoi(strNewVal);
-			if (alpha<0)
-			{
-				strNewVal=_T("0");
-				pProp->SetValue((_variant_t)(LONG)0);
-			}
-			else
-			{
-				strNewVal=_T("255");
-				pProp->SetValue((_variant_t)(LONG)255);
-			}
-			break;
-		}
+	//case tagAlpha:
+	//	{
+	//		int alpha=_ttoi(strNewVal);
+	//		if (alpha<0)
+	//		{
+	//			strNewVal=_T("0");
+	//			pProp->SetValue((_variant_t)(LONG)0);
+	//		}
+	//		else
+	//		{
+	//			strNewVal=_T("255");
+	//			pProp->SetValue((_variant_t)(LONG)255);
+	//		}
+	//		break;
+	//	}
 	}
 
 	CUIDesignerView* pUIView=g_pMainFrame->GetActiveUIView();

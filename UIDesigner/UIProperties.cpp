@@ -356,6 +356,17 @@ void CUIProperties::InitPropList()
 	pValueList->AddSubItem(pProp);
 	pPropUI->AddSubItem(pValueList);
 
+	pValueList = new CMFCPropertyGridProperty(_T("SizeBox"), tagSizeBox, TRUE);//sizebox
+	pProp = new CMFCPropertyGridProperty(_T("Left"), (_variant_t)(LONG)0, _T("尺寸盒的Left位置"));
+	pValueList->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Top"), (_variant_t)(LONG)0, _T("尺寸盒的Top位置"));
+	pValueList->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Right"), (_variant_t)(LONG)0, _T("尺寸盒的Right位置"));
+	pValueList->AddSubItem(pProp);
+	pProp = new CMFCPropertyGridProperty(_T("Bottom"), (_variant_t)(LONG)0, _T("尺寸盒的Bottom位置"));
+	pValueList->AddSubItem(pProp);
+	pPropUI->AddSubItem(pValueList);
+
 	pValueList=new CMFCPropertyGridProperty(_T("Caption"),tagCaption,TRUE);//caption
 	pProp=new CMFCPropertyGridProperty(_T("Left"),(_variant_t)(LONG)0,_T("标题的Left位置"));
 	pValueList->AddSubItem(pProp);
@@ -364,17 +375,6 @@ void CUIProperties::InitPropList()
 	pProp=new CMFCPropertyGridProperty(_T("Right"),(_variant_t)(LONG)0,_T("标题的Right位置"));
 	pValueList->AddSubItem(pProp);
 	pProp=new CMFCPropertyGridProperty(_T("Bottom"),(_variant_t)(LONG)0,_T("标题的Bottom位置"));
-	pValueList->AddSubItem(pProp);
-	pPropUI->AddSubItem(pValueList);
-
-	pValueList=new CMFCPropertyGridProperty(_T("SizeBox"),tagSizeBox,TRUE);//sizebox
-	pProp=new CMFCPropertyGridProperty(_T("Left"),(_variant_t)(LONG)0,_T("尺寸盒的Left位置"));
-	pValueList->AddSubItem(pProp);
-	pProp=new CMFCPropertyGridProperty(_T("Top"),(_variant_t)(LONG)0,_T("尺寸盒的Top位置"));
-	pValueList->AddSubItem(pProp);
-	pProp=new CMFCPropertyGridProperty(_T("Right"),(_variant_t)(LONG)0,_T("尺寸盒的Right位置"));
-	pValueList->AddSubItem(pProp);
-	pProp=new CMFCPropertyGridProperty(_T("Bottom"),(_variant_t)(LONG)0,_T("尺寸盒的Bottom位置"));
 	pValueList->AddSubItem(pProp);
 	pPropUI->AddSubItem(pValueList);
 
@@ -402,57 +402,55 @@ void CUIProperties::InitPropList()
 	pProp=new CMFCPropertyGridProperty(_T("ShowDirty"),(_variant_t)false,_T("指示是否显示更新区域"),tagShowDirty);//showdirty
 	pPropUI->AddSubItem(pProp);
 
+	pProp = new CMFCPropertyGridProperty(_T("opacity"), (_variant_t)(LONG)255, _T("窗口的alpha值(0-255)\n255"), tagOpacity);
+	pPropUI->AddSubItem(pProp);
+
+	pProp = new CMFCPropertyGridProperty(_T("noactivate"), (_variant_t)false, _T("指示是否显示更新区域"), tagNoactivate);//showdirty
+	pPropUI->AddSubItem(pProp);
+
+	pProp = new CMFCPropertyGridProperty(_T("LayeredOpacity"), (_variant_t)(LONG)255, _T("dddd"), tagLayeredOpacity);//showdirty
+	pPropUI->AddSubItem(pProp);
+
+	pPropImage = new CMFCPropertyGridImageProperty(_T("LayeredImage"), _T(""), _T("异性窗口的背景"), tagLayeredImage);//normalimage
+	pPropImage->AllowEdit(FALSE);
+	pPropUI->AddSubItem(pPropImage);
+
+	//	DisabledFontColor
+	pPropColor = new CMFCPropertyGridColor32Property(_T("DisabledFontColor"), (LONG)ARGB(0, 0, 0, 0), NULL, _T("指定默认的Disabled字体颜色"), tagDisabledFontColor);
+	pPropColor->EnableOtherButton(_T("其他..."));
+	pPropColor->EnableAutomaticButton(_T("默认"), ::GetSysColor(COLOR_3DFACE));
+	pPropUI->AddSubItem(pPropColor);
+
+	// tagDefaultFontColor
+	pPropColor = new CMFCPropertyGridColor32Property(_T("DefaultFontColor"), (LONG)ARGB(0, 0, 0, 0), NULL, _T("指定默认的字体颜色"), tagDefaultFontColor);
+	pPropColor->EnableOtherButton(_T("其他..."));
+	pPropColor->EnableAutomaticButton(_T("默认"), ::GetSysColor(COLOR_3DFACE));
+	pPropUI->AddSubItem(pPropColor);
+
+	// tagLinkFontColor
+	pPropColor = new CMFCPropertyGridColor32Property(_T("LinkFontColor"), (LONG)ARGB(0, 0, 0, 0), NULL, _T("指定默认的link字体颜色"), tagLinkFontColor);
+	pPropColor->EnableOtherButton(_T("其他..."));
+	pPropColor->EnableAutomaticButton(_T("默认"), ::GetSysColor(COLOR_3DFACE));
+	pPropUI->AddSubItem(pPropColor);
+
+	// tagLinkHoverFontColor
+	pPropColor = new CMFCPropertyGridColor32Property(_T("LinkHoverFontColor"), (LONG)ARGB(0, 0, 0, 0), NULL, _T("指定默认的linkhoverfont字体颜色"), tagLinkHoverFontColor);
+	pPropColor->EnableOtherButton(_T("其他..."));
+	pPropColor->EnableAutomaticButton(_T("默认"), ::GetSysColor(COLOR_3DFACE));
+	pPropUI->AddSubItem(pPropColor);
+
+	// tagSelectedFontColor
+	pPropColor = new CMFCPropertyGridColor32Property(_T("SelectedColor"), (LONG)ARGB(0, 0, 0, 0), NULL, _T("指定默认的selected字体颜色"), tagSelectedFontColor);
+	pPropColor->EnableOtherButton(_T("其他..."));
+	pPropColor->EnableAutomaticButton(_T("默认"), ::GetSysColor(COLOR_3DFACE));
+	pPropUI->AddSubItem(pPropColor);
+
 	pProp=new CMFCPropertyGridCustomFontsProperty(_T("CustomFonts"),(_variant_t)_T("字体管理"),_T("管理自定义的字体"),tagCustomFonts);//customfonts
 	pProp->AllowEdit(FALSE);
 	pPropUI->AddSubItem(pProp);
 
 	pProp=new CMFCPropertyGridDefaultAttribListProperty(_T("DefaultAttribList"),(_variant_t)_T("默认属性列表管理"),_T("管理默认的属性列表"),tagDefaultAttribList);//defaultattriblist
 	pProp->AllowEdit(FALSE);
-	pPropUI->AddSubItem(pProp);
-
-	// tagAlpha
-	pProp=new CMFCPropertyGridProperty(_T("Alpha"),(_variant_t)(LONG)0,_T("窗口的alpha值(0-255)\n255"),tagAlpha);
-	pPropUI->AddSubItem(pProp);
-
-	// tagBkTrans
-	pProp=new CMFCPropertyGridProperty(_T("BkTrans"),(_variant_t)false,_T("窗口是否使用静态透明背景\nfalse"),tagBkTrans);
-	pPropUI->AddSubItem(pProp);
-
-	// tagDefaultFontColor
-	pPropColor=new CMFCPropertyGridColor32Property(_T("DefaultFontColor"),(LONG)ARGB(0,0,0,0),NULL,_T("指定默认的字体颜色"),tagDefaultFontColor);
-	pPropColor->EnableOtherButton(_T("其他..."));
-	pPropColor->EnableAutomaticButton(_T("默认"),::GetSysColor(COLOR_3DFACE));
-	pPropUI->AddSubItem(pPropColor);
-
-	// tagSelectedFontColor
-	pPropColor=new CMFCPropertyGridColor32Property(_T("SelectedColor"),(LONG)ARGB(0,0,0,0),NULL,_T("指定默认的selected字体颜色"),tagSelectedFontColor);
-	pPropColor->EnableOtherButton(_T("其他..."));
-	pPropColor->EnableAutomaticButton(_T("默认"),::GetSysColor(COLOR_3DFACE));
-	pPropUI->AddSubItem(pPropColor);
-
-	//	DisabledFontColor
-	pPropColor=new CMFCPropertyGridColor32Property(_T("DisabledFontColor"),(LONG)ARGB(0,0,0,0),NULL,_T("指定默认的Disabled字体颜色"),tagDisabledFontColor);
-	pPropColor->EnableOtherButton(_T("其他..."));
-	pPropColor->EnableAutomaticButton(_T("默认"),::GetSysColor(COLOR_3DFACE));
-	pPropUI->AddSubItem(pPropColor);
-
-	// tagLinkFontColor
-	pPropColor=new CMFCPropertyGridColor32Property(_T("LinkFontColor"),(LONG)ARGB(0,0,0,0),NULL,_T("指定默认的link字体颜色"),tagLinkFontColor);
-	pPropColor->EnableOtherButton(_T("其他..."));
-	pPropColor->EnableAutomaticButton(_T("默认"),::GetSysColor(COLOR_3DFACE));
-	pPropUI->AddSubItem(pPropColor);
-
-	// tagLinkHoverFontColor
-	pPropColor=new CMFCPropertyGridColor32Property(_T("LinkHoverFontColor"),(LONG)ARGB(0,0,0,0),NULL,_T("指定默认的linkhoverfont字体颜色"),tagLinkHoverFontColor);
-	pPropColor->EnableOtherButton(_T("其他..."));
-	pPropColor->EnableAutomaticButton(_T("默认"),::GetSysColor(COLOR_3DFACE));
-	pPropUI->AddSubItem(pPropColor);
-
-	pPropImage = new CMFCPropertyGridImageProperty(_T("LayeredImage"), _T(""), _T("异性窗口的背景"), tagLayeredImage);//normalimage
-	pPropImage->AllowEdit(FALSE);
-	pPropUI->AddSubItem(pPropImage);
-
-	pProp = new CMFCPropertyGridProperty(_T("LayeredOpacity"), (_variant_t)false, _T("dddd"), tagLayeredOpacity);//showdirty
 	pPropUI->AddSubItem(pProp);
 
 	m_wndPropList.AddProperty(pPropUI);
@@ -1282,18 +1280,33 @@ void CUIProperties::ShowWindowProperty(CControlUI* pControl)
 	CWindowUI* pForm=static_cast<CWindowUI*>(pControl->GetInterface(_T("Form")));
 	ASSERT(pForm);
 
+	auto pManager = pForm->GetManager();
+
 	CMFCPropertyGridProperty* pPropForm=m_wndPropList.FindItemByData(classWindow,FALSE);
 	ASSERT(pPropForm);
 
 	//size
-	SIZE size=pForm->GetInitSize();
+	SIZE size=pManager->GetInitSize();
 	CMFCPropertyGridProperty* pValueList=pPropForm->GetSubItem(tagWindowSize-tagWindow);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)size.cy);
 	pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)size.cy);
+
+	//sizebox
+	RECT rect = pManager->GetSizeBox();
+	pValueList = pPropForm->GetSubItem(tagSizeBox - tagWindow);
+	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)rect.left);
+	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)rect.top);
+	pValueList->GetSubItem(2)->SetValue((_variant_t)(LONG)rect.right);
+	pValueList->GetSubItem(3)->SetValue((_variant_t)(LONG)rect.bottom);
+	pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)rect.left);
+	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)rect.top);
+	pValueList->GetSubItem(2)->SetOriginalValue((_variant_t)(LONG)rect.right);
+	pValueList->GetSubItem(3)->SetOriginalValue((_variant_t)(LONG)rect.bottom);
+
 	//caption
-	RECT rect=pForm->GetCaptionRect();
+	rect = pManager->GetCaptionRect();
 	pValueList=pPropForm->GetSubItem(tagCaption-tagWindow);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)rect.left);
 	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)rect.top);
@@ -1303,77 +1316,73 @@ void CUIProperties::ShowWindowProperty(CControlUI* pControl)
 	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)rect.top);
 	pValueList->GetSubItem(2)->SetOriginalValue((_variant_t)(LONG)rect.right);
 	pValueList->GetSubItem(3)->SetOriginalValue((_variant_t)(LONG)rect.bottom);
-	//sizebox
-	rect=pForm->GetSizeBox();
-	pValueList=pPropForm->GetSubItem(tagSizeBox-tagWindow);
-	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)rect.left);
-	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)rect.top);
-	pValueList->GetSubItem(2)->SetValue((_variant_t)(LONG)rect.right);
-	pValueList->GetSubItem(3)->SetValue((_variant_t)(LONG)rect.bottom);
-	pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)rect.left);
-	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)rect.top);
-	pValueList->GetSubItem(2)->SetOriginalValue((_variant_t)(LONG)rect.right);
-	pValueList->GetSubItem(3)->SetOriginalValue((_variant_t)(LONG)rect.bottom);
+
 	//roundcorner
-	size=pForm->GetRoundCorner();
+	size=pManager->GetRoundCorner();
 	pValueList=pPropForm->GetSubItem(tagRoundCorner-tagWindow);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)size.cy);
 	pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)size.cy);
+
 	//mininfo
-	size=pForm->GetMinInfo();
+	size= pManager->GetMinInfo();
 	pValueList=pPropForm->GetSubItem(tagMinInfo-tagWindow);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)size.cy);
 	pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)size.cy);
+
 	//maxinfo
-	size=pForm->GetMaxInfo();
+	size= pManager->GetMaxInfo();
 	pValueList=pPropForm->GetSubItem(tagMaxInfo-tagWindow);
 	pValueList->GetSubItem(0)->SetValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetValue((_variant_t)(LONG)size.cy);
 	pValueList->GetSubItem(0)->SetOriginalValue((_variant_t)(LONG)size.cx);
 	pValueList->GetSubItem(1)->SetOriginalValue((_variant_t)(LONG)size.cy);
+
 	//showdirty
-	pPropForm->GetSubItem(tagShowDirty-tagWindow)->SetValue((_variant_t)pForm->IsShowUpdateRect());
-	pPropForm->GetSubItem(tagShowDirty-tagWindow)->SetOriginalValue((_variant_t)pForm->IsShowUpdateRect());
+	pPropForm->GetSubItem(tagShowDirty-tagWindow)->SetValue((_variant_t)pManager->IsShowUpdateRect());
+	pPropForm->GetSubItem(tagShowDirty-tagWindow)->SetOriginalValue((_variant_t)pManager->IsShowUpdateRect());
+
+	//noactivate
+	CMFCPropertyGridProperty* subItem = pPropForm->GetSubItem(tagNoactivate-tagWindow);
+	subItem->SetValue((_variant_t)pManager->IsNoActivate());
+	subItem->SetOriginalValue((_variant_t)pManager->IsNoActivate());
+
+	//tagOpacity
+	subItem = pPropForm->GetSubItem(tagOpacity-tagWindow);
+	subItem->SetValue((_variant_t)(LONG)pManager->GetOpacity());
+	subItem->SetOriginalValue((_variant_t)(LONG)pManager->GetOpacity());
 
 	//LayeredOpacity
-	pPropForm->GetSubItem(tagLayeredOpacity-tagWindow)->SetValue((_variant_t)pForm->getLayeredOpacity());
-	pPropForm->GetSubItem(tagLayeredOpacity-tagWindow)->SetOriginalValue((_variant_t)pForm->getLayeredOpacity());
+	subItem = pPropForm->GetSubItem(tagLayeredOpacity-tagWindow);
+	subItem->SetValue((_variant_t)(LONG)pManager->GetLayeredOpacity());
+	subItem->SetOriginalValue((_variant_t)(LONG)pManager->GetLayeredOpacity());
 
-	//LayeredOpacity
-	pPropForm->GetSubItem(tagLayeredImage-tagWindow)->SetValue((_variant_t)pForm->getDefaultLayeredImage());
-	pPropForm->GetSubItem(tagLayeredImage-tagWindow)->SetOriginalValue((_variant_t)pForm->getDefaultLayeredImage());
-
-	// tagAlpha
-	pPropForm->GetSubItem(tagAlpha-tagWindow)->SetValue((_variant_t)(LONG)pForm->GetAlpha());
-	pPropForm->GetSubItem(tagAlpha-tagWindow)->SetOriginalValue((_variant_t)(LONG)pForm->GetAlpha());
-
-	// tagBkTrans
-	pPropForm->GetSubItem(tagBkTrans-tagWindow)->SetValue((_variant_t)pForm->GetBackgroundTransparent());
-	pPropForm->GetSubItem(tagBkTrans-tagWindow)->SetOriginalValue((_variant_t)pForm->GetBackgroundTransparent());
+	//tagLayeredImage
+	pPropForm->GetSubItem(tagLayeredImage-tagWindow)->SetValue((_variant_t)pManager->GetLayeredImage());
+	pPropForm->GetSubItem(tagLayeredImage-tagWindow)->SetOriginalValue((_variant_t)pManager->GetLayeredImage());
 
 	// tagDefaultFontColor
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDefaultFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pForm->GetDefaultFontColor()));
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDefaultFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pForm->GetDefaultFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDefaultFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pManager->GetDefaultFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDefaultFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pManager->GetDefaultFontColor()));
 
 	// tagSelectedFontColor
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagSelectedFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pForm->GetDefaultSelectedFontColor()));
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagSelectedFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pForm->GetDefaultSelectedFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagSelectedFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pManager->GetDefaultSelectedBkColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagSelectedFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pManager->GetDefaultSelectedBkColor()));
 
 	// tagDisabledFontColor
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDisabledFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pForm->GetDefaultDisabledFontColor()));
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDisabledFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pForm->GetDefaultDisabledFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDisabledFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pManager->GetDefaultDisabledColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagDisabledFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pManager->GetDefaultDisabledColor()));
 
 	// tagLinkFontColor
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pForm->GetDefaultLinkFontColor()));
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pForm->GetDefaultLinkFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pManager->GetDefaultLinkFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pManager->GetDefaultLinkFontColor()));
 
 	// tagLinkHoverFontColor
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkHoverFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pForm->GetDefaultLinkHoverFontColor()));
-	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkHoverFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pForm->GetDefaultLinkHoverFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkHoverFontColor-tagWindow))->SetColor((_variant_t)(LONG)(pManager->GetDefaultLinkHoverFontColor()));
+	static_cast<CMFCPropertyGridColor32Property*>(pPropForm->GetSubItem(tagLinkHoverFontColor-tagWindow))->SetOriginalValue((_variant_t)(LONG)(pManager->GetDefaultLinkHoverFontColor()));
 
 	pPropForm->Show(TRUE,FALSE);
 }
