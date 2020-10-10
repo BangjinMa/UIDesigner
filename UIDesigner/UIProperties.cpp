@@ -402,9 +402,6 @@ void CUIProperties::InitPropList()
 	pProp=new CMFCPropertyGridProperty(_T("ShowDirty"),(_variant_t)false,_T("指示是否显示更新区域"),tagShowDirty);//showdirty
 	pPropUI->AddSubItem(pProp);
 
-	pProp = new CMFCPropertyGridProperty(_T("opacity"), (_variant_t)(LONG)255, _T("窗口的alpha值(0-255)\n255"), tagOpacity);
-	pPropUI->AddSubItem(pProp);
-
 	pProp = new CMFCPropertyGridProperty(_T("noactivate"), (_variant_t)false, _T("指示是否显示更新区域"), tagNoactivate);//showdirty
 	pPropUI->AddSubItem(pProp);
 
@@ -1349,11 +1346,6 @@ void CUIProperties::ShowWindowProperty(CControlUI* pControl)
 	CMFCPropertyGridProperty* subItem = pPropForm->GetSubItem(tagNoactivate-tagWindow);
 	subItem->SetValue((_variant_t)pManager->IsNoActivate());
 	subItem->SetOriginalValue((_variant_t)pManager->IsNoActivate());
-
-	//tagOpacity
-	subItem = pPropForm->GetSubItem(tagOpacity-tagWindow);
-	subItem->SetValue((_variant_t)(LONG)pManager->GetOpacity());
-	subItem->SetOriginalValue((_variant_t)(LONG)pManager->GetOpacity());
 
 	//LayeredOpacity
 	subItem = pPropForm->GetSubItem(tagLayeredOpacity-tagWindow);

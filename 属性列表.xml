@@ -10,7 +10,6 @@
 		<Attribute name="maxinfo" default="0,0" type="SIZE" comment="窗口最大大小,如(1600,1200)"/>
 		<Attribute name="showdirty" default="false" type="BOOL" comment=""/>
 		<Attribute name="noactivate" default="false" type="BOOL" comment=""/>
-		<Attribute name="opacity" default="false" type="BYTE" comment=""/>
 		<Attribute name="layeredopacity" default="false" type="BYTE" comment=""/>
 		<Attribute name="layeredimage" default="false" type="STRING" comment=""/>
 		<Attribute name="disabledfontcolor" default="0xFFA7A6AA" type="DWORD" comment="默认的disabled字体颜色,如(0xFFA7A6AA)"/>

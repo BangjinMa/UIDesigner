@@ -197,14 +197,16 @@ void CWindowUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
 		SetInitSize(rcPos.right - rcPos.left, rcPos.bottom - rcPos.top);
 		return;
 	}
-	else if (_tcscmp(pstrName, _T("opacity")) == 0)
+	else if (_tcscmp(pstrName, _T("noactivate")) == 0)
 	{
-		m_pManager->SetOpacity(_tcscmp(pstrValue, _T("true")) == 0);
+		m_pManager->SetNoActivate(_tcscmp(pstrValue, _T("true")) == 0);
 		return;
 	}
 	else if (_tcscmp(pstrName, _T("layeredopacity")) == 0)
 	{
-		m_pManager->SetLayeredOpacity(_tcscmp(pstrValue, _T("true")) == 0);
+		LPTSTR pstr = NULL;
+		int cx = _tcstol(pstrValue, &pstr, 10);  ASSERT(pstr);
+		m_pManager->SetLayeredOpacity(cx);
 		return;
 	}
 	else if (_tcscmp(pstrName, _T("layeredimage")) == 0) 
@@ -2310,17 +2312,10 @@ bool CLayoutManager::SaveSkinFile( LPCTSTR pstrPathName )
 		pFormElm->SetAttribute("noactivate", StringConvertor::WideToUtf8(szBuf));
 	}
 
-	if (m_Manager.GetOpacity())
-	{
-		ZeroMemory(szBuf, sizeof(szBuf));
-		_tcscpy(szBuf, _T("true"));
-		pFormElm->SetAttribute("noactivate", StringConvertor::WideToUtf8(szBuf));
-	}
-
 	if (m_Manager.GetLayeredOpacity())
 	{
 		ZeroMemory(szBuf, sizeof(szBuf));
-		_stprintf_s(szBuf, _T("%d"), 255);
+		_stprintf_s(szBuf, _T("%d"), m_Manager.GetLayeredOpacity());
 		pFormElm->SetAttribute("layeredopacity", StringConvertor::WideToUtf8(szBuf));
 	}
 

@@ -91,7 +91,6 @@ enum PropertyTag
 	tagMinInfo,
 	tagMaxInfo,
 	tagShowDirty,
-	tagOpacity,
 	tagNoactivate,
 	tagLayeredOpacity,
 	tagLayeredImage,

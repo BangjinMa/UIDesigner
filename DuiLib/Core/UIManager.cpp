@@ -3136,9 +3136,6 @@ void CPaintManagerUI::SetWindowAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
     else if( _tcscmp(pstrName, _T("noactivate")) == 0 ) {
         SetNoActivate(_tcsicmp(pstrValue, _T("true")) == 0);
     }
-    else if( _tcsicmp(pstrName, _T("opacity")) == 0 ) {
-        SetOpacity(_ttoi(pstrValue));
-    } 
     else if( _tcscmp(pstrName, _T("layeredopacity")) == 0 ) {
         SetLayeredOpacity(_ttoi(pstrValue));
     } 

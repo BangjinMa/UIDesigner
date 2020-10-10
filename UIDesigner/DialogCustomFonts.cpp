@@ -80,7 +80,7 @@ void CDialogCustomFonts::OnBnClickedButtonFontAdd()
 		m_fontCount++;
 		LOGFONT lf = { 0 };
 		dlg.GetCurrentFont(&lf);
-		m_pManager->AddFont(m_fontCount, lf.lfFaceName, -lf.lfHeight, (lf.lfWeight == FW_BOLD), lf.lfUnderline != 0, lf.lfItalic != 0, true);
+		m_pManager->AddFont(m_fontCount, lf.lfFaceName, -lf.lfHeight, (lf.lfWeight == FW_BOLD), lf.lfUnderline != 0, lf.lfItalic != 0, false);
 
 		CString str;
 		int nCount = m_lstCustomFonts.GetItemCount();
