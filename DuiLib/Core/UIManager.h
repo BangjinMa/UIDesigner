@@ -305,7 +305,7 @@ public:
     bool RemoveDefaultAttributeList(LPCTSTR pStrControlName, bool bShared = false);
     void RemoveAllDefaultAttributeList(bool bShared = false);
 
-	CDuiStringPtrMap GetDefaultAttribultes();
+	const CDuiStringPtrMap& GetDefaultAttribultes() const;
 
     void AddWindowCustomAttribute(LPCTSTR pstrName, LPCTSTR pstrAttr);
     LPCTSTR GetWindowCustomAttribute(LPCTSTR pstrName) const;

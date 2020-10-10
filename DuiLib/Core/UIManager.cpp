@@ -3035,7 +3035,7 @@ void CPaintManagerUI::RemoveAllDefaultAttributeList(bool bShared)
 	}
 }
 
-CDuiStringPtrMap CPaintManagerUI::GetDefaultAttribultes() {
+const CDuiStringPtrMap& CPaintManagerUI::GetDefaultAttribultes() const {
 	return m_ResInfo.m_AttrHash;
 }
 

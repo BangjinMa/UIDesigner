@@ -2134,7 +2134,6 @@ void CLayoutManager::SaveProperties(CControlUI* pControl, TiXmlElement* pParentN
 		return;
 
 	CString strClass = pControl->GetClass();
-	strClass = strClass.Mid(0, strClass.GetLength() - 2);
 	TiXmlElement* pNode = new TiXmlElement(StringConvertor::WideToUtf8(strClass.GetBuffer()));
 	ExtendedAttributes* pExtended=(ExtendedAttributes*)pControl->GetTag();
 

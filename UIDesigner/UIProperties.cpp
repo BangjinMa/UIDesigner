@@ -7,7 +7,6 @@
 #include "DialogCustomFonts.h"
 #include "DialogDefaultAttribList.h"
 
-//using DuiLib::TRelativePosUI;
 using DuiLib::IListOwnerUI;
 
 //////////////////////////////////////////////////////////////////////////

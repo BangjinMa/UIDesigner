@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "UIDesigner.h"
 #include "ImagePreview.h"
+//#include "../DuiLib/Core/UIManager.h"
 
 
 // CImagePreview

@@ -147,6 +147,7 @@ typedef struct tagUIAttribute
 //Global variables
 
 #include "..\DuiLib\UIlib.h"
+#include "..\DuiLib\Core\UIRender.h"
 #include "MainFrm.h"
 #include "ToolBoxWnd.h"
 #include "PropertiesWnd.h"
@@ -161,6 +162,8 @@ using DuiLib::CPaintManagerUI;
 using DuiLib::CWindowWnd;
 using DuiLib::TNotifyUI;
 using DuiLib::IMessageFilterUI;
+using DuiLib::CDuiValArray;
+using DuiLib::CDuiPtrArray;
 using DuiLib::CDuiStringPtrMap;
 using DuiLib::CDuiString;
 using DuiLib::TListInfoUI;
@@ -195,6 +198,7 @@ using DuiLib::TImageInfo;
 using DuiLib::TFontInfo;
 using DuiLib::TEventUI;
 using DuiLib::EVENTTYPE_UI;
+using DuiLib::TDrawInfo;
 
 extern CMainFrame* g_pMainFrame;
 extern CToolBoxWnd* g_pToolBoxWnd;
